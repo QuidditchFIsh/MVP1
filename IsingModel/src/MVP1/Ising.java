@@ -33,11 +33,11 @@ public class Ising
 				if(ising_Grid[i][j]==0)
 				{
 					ising_Grid[i][j] -= 1;
+				//I THINK THERE IS A BETTER WAY TO DO THIS BUT THIS WILL DO FOR NOW
 				}
-				System.out.print(ising_Grid[i][j] + " ");
 			}
-			System.out.println();
 		}
+		
 		
 	}
 	

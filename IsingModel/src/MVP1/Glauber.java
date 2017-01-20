@@ -1,5 +1,6 @@
 package MVP1;
 
-public class Glauber {
+public class Glauber extends Functions
+{
 
 }
