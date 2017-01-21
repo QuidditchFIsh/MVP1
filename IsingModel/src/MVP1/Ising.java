@@ -17,11 +17,13 @@ public class Ising
  * n:size of the grid to be made
  * iterations:number of cycles which the simulation will perform
  * dynamics: 1=Kawasaki Dynamics 0: Galuber dynamics
+ * temp is the temperature of the system in kelvin
  */
-		int iterations =10;
+		int iterations =1;
 		int n = 5;
 		int dynamics =0;
 		int [][] ising_Grid = new int[n][n];
+		double temp = 1.5;//NEED TO CREATE A CHECK TO MAKE SURE THAT THIS IS NOT INPUTTED LESS THAN 0!!!!
 		
 		Random rand = new Random();
 		
@@ -36,6 +38,15 @@ public class Ising
 				//I THINK THERE IS A BETTER WAY TO DO THIS BUT THIS WILL DO FOR NOW
 				}
 			}
+		}
+		
+		if(dynamics == 0)
+		{
+			Glauber.glauber(ising_Grid, iterations,temp);
+		}
+		else
+		{
+			//Kawaski
 		}
 		
 		
