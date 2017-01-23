@@ -1,5 +1,6 @@
 package MVP1;
 import java.util.Random;
+import java.awt.image.BufferedImage;
 public class Glauber extends Functions
 {
 	public static void glauber(int [][] ising,int iterations,double temp)
@@ -9,6 +10,7 @@ public class Glauber extends Functions
 		double energyBefore=0;
 		double energyAfter=0;
 		double energyDiff = 0;
+		
 		for (int i=0;i<iterations;i++)
 		{
 			//create random numbers to select a point in the ising grid to flip

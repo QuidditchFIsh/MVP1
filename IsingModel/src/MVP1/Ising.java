@@ -20,12 +20,13 @@ public class Ising
  * temp is the temperature of the system in kelvin
  */
 		int iterations =1;
-		int n = 5;
+		int n = 200;
 		int dynamics =0;
 		int [][] ising_Grid = new int[n][n];
 		double temp = 1.5;//NEED TO CREATE A CHECK TO MAKE SURE THAT THIS IS NOT INPUTTED LESS THAN 0!!!!
 		
 		Random rand = new Random();
+		
 		
 		for (int i=0;i<n;i++)
 		{
@@ -39,6 +40,9 @@ public class Ising
 				}
 			}
 		}
+		
+		//Initalise the model graphics
+		graphics.initaslise(ising_Grid);
 		
 		if(dynamics == 0)
 		{

@@ -42,6 +42,7 @@ class Animate
 		f.addWindowListener(new WindowAdapter() {public void windowClosing(WindowEvent we) {System.exit(0);}});
 
 		init(bi);
+		
 		new Timer().scheduleAtFixedRate(new TimerTask() 
 		{
 			public void run() 
@@ -52,6 +53,7 @@ class Animate
 				}
 			}
 		}, 0, 33);
+		
 		new Timer().scheduleAtFixedRate(new TimerTask() 
 		{
 			public void run() 
@@ -62,5 +64,6 @@ class Animate
 				}
 			}
 		}, 0, P);
+		
 	}
 }
