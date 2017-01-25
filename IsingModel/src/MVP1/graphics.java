@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 public class graphics 
 {
 	static int m =0;
-	static void update(int[][] ising,BufferedImage bi)
+	public static void update(int[][] ising,BufferedImage bi)
 	{
 		for (int x = 0; x < m; x++) 
 			for (int y = 0; y < m; y++)
@@ -26,11 +26,11 @@ public class graphics
 			}
 	}
 	
-	static BufferedImage initaslise(int [][] ising)
+	public static BufferedImage initaslise(int [][] ising,BufferedImage bi)
 	{
 		int n = ising[0].length;
 		m=n;
-		final BufferedImage bi = new BufferedImage(n, n, BufferedImage.TYPE_INT_RGB);
+		//final BufferedImage bi = new BufferedImage(n, n, BufferedImage.TYPE_INT_RGB);
 		final Object lock = new Object();
 		final Frame f = new Frame();
 		f.setIgnoreRepaint(true);
