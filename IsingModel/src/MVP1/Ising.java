@@ -26,7 +26,7 @@ public class Ising
 		int [][] ising_Grid = new int[n][n];
 		Random rand = new Random();
 		
-		double temp = 1.2;//NEED TO CREATE A CHECK TO MAKE SURE THAT THIS IS NOT INPUTTED LESS THAN 0!!!
+		double temp = 100;//NEED TO CREATE A CHECK TO MAKE SURE THAT THIS IS NOT INPUTTED LESS THAN 0!!!
 		if(temp < 0)
 		{
 			throw new Exception("Temp Can't be negitive you idiot");
