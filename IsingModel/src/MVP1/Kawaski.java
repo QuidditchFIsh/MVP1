@@ -2,50 +2,67 @@ package MVP1;
 //NEED TO CONSIDER THE CASE WHERE THE RANDOM NUMBERS ARE THE SAME	
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Kawaski extends Functions
 {
-	public static void kawaski(int[][] ising,int iterations,double temp,BufferedImage bi)
+	public static void kawaski(int[][] ising,int iterations,double temp,BufferedImage bi) throws InterruptedException
 	{
 		int n = ising[0].length;
 		Random rand = new Random();
 		double energyBefore =0,energyAfter =0,energyDiff=0;
-
+		
 		for(int i=0;i<iterations;i++)
 		{
-			//Pick two random points in the ising Grid
+			//Pick two random points in the ising Grid making sure that they are not the same.IM NOT SURE THAT THIS IS THE SAFEST SOLUTION SINCE THERE STILL IS A POSSIBILITY THAT
+			//THE SECOND RANDOM NUMBER COULD BE EQUAL TO THE FIRST
+			
 			int randi_1 = rand.nextInt(n);
 			int randj_1 = rand.nextInt(n);
 			int randi_2 = rand.nextInt(n);
 			int randj_2 = rand.nextInt(n);
+
+			
+			//this is a check to make sure that the swap will actually do somthing 
 			//CHECK IF THIS CONDITION ADDS ONTO THE ITERATIONS OR NOT
-			//if(ising[randi_1][randj_1] != ising[randi_2][randj_2])
-			//{
+			
+			if(ising[randi_1][randj_1] != ising[randi_2][randj_2])
+			{
 			//If statement to check if the positions picked are not anywhere near each other 
 			//In vertical,horizonatl and diagonal directions
-			System.out.println(randi_1 + " " + randj_1 + " " + randi_2 + " " + randj_2);
-			if(nearestNeighbors(ising,randi_1,randi_2,randj_1,randj_2,n))
-			{
-				System.out.println("welp");
-			}
-			else
-				//If they are not near each other we can proceed as usual
-			{
-				//calcuate the energy of the points before the swap
-				energyBefore = energy(ising,randi_1,randj_1) + energy(ising,randi_2,randj_2);
-				//make the swap
-				ising[randi_1][randj_1] *=-1;
-				ising[randi_2][randj_2] *=-1;
-				energyAfter = energy(ising,randi_1,randj_1) + energy(ising,randi_2,randj_2);
+				System.out.printf("%d %d %d %d \n",randi_1,randj_1,randi_1,randj_2);
+				if(nearestNeighbors(ising,randi_1,randi_2,randj_1,randj_2,n))
+				{
+					//calculate the energy of the system with the correction to compensate for the over counting 
+					energyBefore = energy(ising,randi_1,randj_1) + energy(ising,randi_2,randj_2) - (ising[randi_1][randj_1] * ising[randi_2][randj_2]);
+					ising[randi_1][randj_1] *=-1;
+					ising[randi_2][randj_2] *=-1;
+					energyAfter = energy(ising,randi_1,randj_1) + energy(ising,randi_2,randj_2) - (ising[randi_1][randj_1] * ising[randi_2][randj_2]);
+				}
+				
+				else
+					//If they are not near each other we can proceed as usual
+				{
+					//calcuate the energy of the points before the swap
+					energyBefore = energy(ising,randi_1,randj_1) + energy(ising,randi_2,randj_2);
+					ising[randi_1][randj_1] *=-1;
+					ising[randi_2][randj_2] *=-1;
+					energyAfter = energy(ising,randi_1,randj_1) + energy(ising,randi_2,randj_2);
+				}
 				energyDiff = energyAfter - energyBefore;
+				System.out.println(energyDiff);				
 				if(acceptOrReject(energyDiff,temp) == false)
 				{
 					ising[randi_1][randj_1] *=-1;
 					ising[randi_2][randj_2] *=-1;
 				}
-				//graphics.update(ising, bi);
-
+				if (i % 100 ==0) 
+				{ 
+						graphics.update(ising, bi);
+						//TimeUnit.SECONDS.sleep(1);
+				}		
 			}
+			
 		}
 
 
@@ -64,6 +81,11 @@ public class Kawaski extends Functions
 		}
 		return false;
 	
+	}
+	public static void swap(int[][] ising,int i1,int j1,int i2,int j2)
+	{
+		ising[i1][j1] *=-1;
+		ising[i2][j2] *=-1;
 	}
 
 }

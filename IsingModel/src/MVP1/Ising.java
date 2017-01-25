@@ -20,20 +20,20 @@ public class Ising
  * dynamics: 1=Kawasaki Dynamics 0: Galuber dynamics
  * temp is the temperature of the system in kelvin
  */
-		int iterations =1;
-		int n = 5;
+		int iterations =1000000;
+		int n = 100;
 		int dynamics =1;
 		int [][] ising_Grid = new int[n][n];
 		Random rand = new Random();
 		
-		double temp = 1;//NEED TO CREATE A CHECK TO MAKE SURE THAT THIS IS NOT INPUTTED LESS THAN 0!!!
+		double temp = 2;
 		if(temp < 0)
 		{
 			throw new Exception("Temp Can't be negitive you idiot");
 		}
 		try
 		{
-		if(dynamics == 0)
+		if(dynamics == 1)
 		{
 		for (int i=0;i<n;i++)
 		{
@@ -66,7 +66,7 @@ public class Ising
 		
 		//Initalise the model graphics WILL WANT TO INITALISE IT DIFFERENTLY FOR THE DIFFERENT ALGORITHMS SO CHANGE THIS
 		BufferedImage bi = new BufferedImage(n, n, BufferedImage.TYPE_INT_RGB);
-		//graphics.initaslise(ising_Grid, bi);
+		graphics.initaslise(ising_Grid, bi);
 		
 		
 		if(dynamics == 0)
@@ -83,7 +83,8 @@ public class Ising
 		}
 		catch(Exception e)
 		{
-			System.out.println("you prune");
+			System.out.println("you prune,your mother was a hamster and your father smelt of elderberries");
+			e.printStackTrace();
 			System.exit(0);
 		}
 		

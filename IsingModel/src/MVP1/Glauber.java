@@ -34,6 +34,7 @@ public class Glauber extends Functions
 
 			if(acceptOrReject(energyDiff,temp) == false)
 			{
+				
 				ising[randi][randj] *= -1;
 
 			}
