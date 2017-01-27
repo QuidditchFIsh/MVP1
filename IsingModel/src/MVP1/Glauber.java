@@ -49,7 +49,8 @@ public class Glauber extends Functions
 				avgMagSqd += normalisedTotalMagSquared(ising);
 			}
 		}
-		return (1/)
+//		System.out.println(avgMagSqd + " " + avgMag);
+		return (1/(n*n*temp))*((avgMagSqd/(iterations/100))-Math.pow((avgMag/(iterations/100)), 2));
 	}
 }
 

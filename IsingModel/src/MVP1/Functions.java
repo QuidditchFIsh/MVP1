@@ -52,15 +52,20 @@ public class Functions
 		for(int i=0;i<ising[0].length;i++)
 			for(int j =0;j<ising[0].length;j++)
 				sum=+ising[i][j];
-		return sum/((ising[0].length)^2);
+		return sum/(Math.pow((ising[0].length),2));
 	}
 	public static double normalisedTotalMagSquared(int[][] ising)
 	{
-		int sum =0;
+		double sum =0;
 		for(int i=0;i<ising[0].length;i++)
 			for(int j =0;j<ising[0].length;j++)
-				sum=+(ising[i][j]^2);
-		return sum/((ising[0].length)^2);
+			{
+				sum+=(Math.pow(ising[i][j],2));
+				
+			}
+			
+		
+		return sum/(Math.pow((ising[0].length),2));
 		
 	}
 

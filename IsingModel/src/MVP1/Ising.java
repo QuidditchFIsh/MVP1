@@ -2,6 +2,8 @@ package MVP1;
 import java.util.Random;
 import java.awt.image.BufferedImage;
 import java.lang.Math;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 /*
  * Author: Nye Baker
  * Date Created: 20/01/2017
@@ -20,10 +22,15 @@ public class Ising
  * dynamics: 1=Kawasaki Dynamics 0: Galuber dynamics
  * temp is the temperature of the system in kelvin
  */
-		int iterations =1000000000;
+		int iterations =10000000;
 		int n = 100;
-		int dynamics =1;
+		int dynamics =0;
 		int [][] ising_Grid = new int[n][n];
+		double magnetisation=0;
+		
+		//Create a Buffered wirter to write the data to a file for the magnetisation
+		BufferedWriter bw = new BufferedWriter(new FileWriter("output"));
+		
 		Random rand = new Random();
 		
 		double temp = 0.1;
@@ -67,12 +74,21 @@ public class Ising
 		*/
 		//Initalise the model graphics WILL WANT TO INITALISE IT DIFFERENTLY FOR THE DIFFERENT ALGORITHMS SO CHANGE THIS
 		BufferedImage bi = new BufferedImage(n, n, BufferedImage.TYPE_INT_RGB);
-		graphics.initaslise(ising_Grid, bi);
+	//	graphics.initaslise(ising_Grid, bi);
 		
 		
 		if(dynamics == 0)
 		{
-			Glauber.glauber(ising_Grid, iterations,temp,bi);
+			//To calcuate the magnetisation loop over the program many times and record the magnetisation
+			//at a certain temp
+			for(temp=0;temp<10;temp=temp+0.25)
+			{
+			
+				bw.write(String.valueOf(Glauber.glauber(ising_Grid, iterations,temp,bi)) + " " + String.valueOf(temp));
+				bw.newLine();
+				System.out.println("whiql");
+			}
+			bw.close();
 		}
 		else
 		{
