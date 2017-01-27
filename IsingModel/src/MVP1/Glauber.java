@@ -3,13 +3,15 @@ import java.util.Random;
 import java.awt.image.BufferedImage;
 public class Glauber extends Functions
 {
-	public static void glauber(int [][] ising,int iterations,double temp,BufferedImage bi)
+	public static double glauber(int [][] ising,int iterations,double temp,BufferedImage bi)
 	{
 		int n = ising[0].length;
 		Random rand = new Random();
 		double energyBefore=0;
 		double energyAfter=0;
 		double energyDiff = 0;
+		double avgMag=0;
+		double avgMagSqd=0;
 		//find a better way to to this other than passing the bufferedIMage around and around
 		//create and initalise the buffered image
 
@@ -34,23 +36,20 @@ public class Glauber extends Functions
 
 			if(acceptOrReject(energyDiff,temp) == false)
 			{
-				
+
 				ising[randi][randj] *= -1;
 
 			}
 			//Now the metropolis algorithm has been completed we need to update the image 
 
-			if (i % 1000 ==0) 
+			if (i % 100 ==0) 
 			{ 
 				graphics.update(ising, bi);
+				avgMag+=normalisedTotalMagnetisation(ising);
+				avgMagSqd += normalisedTotalMagSquared(ising);
 			}
 		}
-
-
-
+		return (1/)
 	}
-
-
-
 }
 

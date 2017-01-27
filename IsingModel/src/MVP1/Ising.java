@@ -7,7 +7,7 @@ import java.lang.Math;
  * Date Created: 20/01/2017
  * Description: Simulation of  a magnetic system only concidering spins of each atom on a fixed lattice Using the Ising Model
  */
-
+//concider changing the grid to a boolean grid....
 public class Ising 
 {
 	public static void main(String [ ] args) throws Exception
@@ -26,7 +26,7 @@ public class Ising
 		int [][] ising_Grid = new int[n][n];
 		Random rand = new Random();
 		
-		double temp = 1;
+		double temp = 0.1;
 		if(temp < 0)
 		{
 			throw new Exception("Temp Can't be negitive you idiot");
