@@ -1,9 +1,11 @@
 package MVP1;
 import java.util.Random;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.IOException;
 public class Glauber extends Functions
 {
-	public static double glauber(int [][] ising,int iterations,double temp,BufferedImage bi)
+	public static void glauber(int [][] ising,int iterations,double temp,BufferedImage bi,BufferedWriter bw) throws IOException
 	{
 		int n = ising[0].length;
 		Random rand = new Random();
@@ -12,6 +14,7 @@ public class Glauber extends Functions
 		double energyDiff = 0;
 		double avgMag=0;
 		double avgMagSqd=0;
+		double avgEnergy=0;
 		//find a better way to to this other than passing the bufferedIMage around and around
 		//create and initalise the buffered image
 
@@ -42,15 +45,19 @@ public class Glauber extends Functions
 			}
 			//Now the metropolis algorithm has been completed we need to update the image 
 
-			if (i % 100 ==0) 
+			//&& iterations > iterations*0.8
+			if (i % 100 ==0 && iterations > iterations*0.8) 
 			{ 
-				graphics.update(ising, bi);
-				avgMag+=normalisedTotalMagnetisation(ising);
+				//graphics.update(ising, bi);
+				avgMag += normalisedTotalMagnetisation(ising);
 				avgMagSqd += normalisedTotalMagSquared(ising);
+				avgEnergy += totalEnergy(ising)/n;
+				
 			}
 		}
-//		System.out.println(avgMagSqd + " " + avgMag);
-		return (1/(n*n*temp))*((avgMagSqd/(iterations/100))-Math.pow((avgMag/(iterations/100)), 2));
+		double suseptability = (1/(n*n*temp))*((avgMagSqd/(iterations/100))-Math.pow((avgMag/(iterations/100)), 2));
+		bw.write(String.valueOf( suseptability + " " + Math.abs(avgMag)/(iterations/100) + " " + (avgEnergy)/(iterations/100) + " " + String.valueOf(temp)));
+		bw.newLine();
 	}
 }
 

@@ -23,13 +23,13 @@ public class Ising
  * temp is the temperature of the system in kelvin
  */
 		int iterations =10000000;
-		int n = 100;
+		int n = 50;
 		int dynamics =0;
 		int [][] ising_Grid = new int[n][n];
 		double magnetisation=0;
 		
 		//Create a Buffered wirter to write the data to a file for the magnetisation
-		BufferedWriter bw = new BufferedWriter(new FileWriter("output"));
+		BufferedWriter bw = new BufferedWriter(new FileWriter("output2"));
 		
 		Random rand = new Random();
 		
@@ -46,12 +46,18 @@ public class Ising
 		{
 			for(int j =0;j<n;j++)
 			{
+				/*
 				ising_Grid[i][j] = rand.nextInt(2);
 				if(ising_Grid[i][j]==0)
 				{
 					ising_Grid[i][j] -= 1;
 				//I THINK THERE IS A BETTER WAY TO DO THIS BUT THIS WILL DO FOR NOW
+				 * 
+				 *
+				ising_Grid[i][j] =-1;
 				}
+				*/
+				ising_Grid[i][j] =-1;
 			}
 		}
 	//	}
@@ -74,20 +80,19 @@ public class Ising
 		*/
 		//Initalise the model graphics WILL WANT TO INITALISE IT DIFFERENTLY FOR THE DIFFERENT ALGORITHMS SO CHANGE THIS
 		BufferedImage bi = new BufferedImage(n, n, BufferedImage.TYPE_INT_RGB);
-	//	graphics.initaslise(ising_Grid, bi);
+		//graphics.initaslise(ising_Grid, bi);
 		
 		
 		if(dynamics == 0)
 		{
 			//To calcuate the magnetisation loop over the program many times and record the magnetisation
 			//at a certain temp
-			for(temp=0;temp<10;temp=temp+0.25)
-			{
-			
-				bw.write(String.valueOf(Glauber.glauber(ising_Grid, iterations,temp,bi)) + " " + String.valueOf(temp));
-				bw.newLine();
-				System.out.println("whiql");
-			}
+			//for(int k = 0; k < 4 ; k++)
+				for(temp = 0; temp < 3.5 ; temp = temp + 0.1)
+				{
+					Glauber.glauber(ising_Grid, iterations,temp,bi,bw);
+					System.out.println(temp);
+				}
 			bw.close();
 		}
 		else
