@@ -12,6 +12,7 @@ import java.io.FileWriter;
 //concider changing the grid to a boolean grid....
 public class Ising 
 {
+	@SuppressWarnings("resource")
 	public static void main(String [ ] args) throws Exception
 	{
 		//In the end these should be passed in by the user 
@@ -26,13 +27,13 @@ public class Ising
 		int n = 50;
 		int dynamics =0;
 		int [][] ising_Grid = new int[n][n];
-		double magnetisation=0;
+		//A boolean to turn the graphics on or off
+		boolean graphic = false;
 		
 		//Create a Buffered wirter to write the data to a file for the magnetisation
 		BufferedWriter bw = new BufferedWriter(new FileWriter("output2"));
 		
 		Random rand = new Random();
-		
 		double temp = 0.1;
 		if(temp < 0)
 		{
@@ -80,7 +81,8 @@ public class Ising
 		*/
 		//Initalise the model graphics WILL WANT TO INITALISE IT DIFFERENTLY FOR THE DIFFERENT ALGORITHMS SO CHANGE THIS
 		BufferedImage bi = new BufferedImage(n, n, BufferedImage.TYPE_INT_RGB);
-		//graphics.initaslise(ising_Grid, bi);
+		if(graphic)
+			graphics.initaslise(ising_Grid, bi);
 		
 		
 		if(dynamics == 0)
@@ -88,9 +90,22 @@ public class Ising
 			//To calcuate the magnetisation loop over the program many times and record the magnetisation
 			//at a certain temp
 			//for(int k = 0; k < 4 ; k++)
-				for(temp = 0; temp < 3.5 ; temp = temp + 0.1)
+				for(temp = 1.5; temp < 3.5 ; temp = temp + 0.1)
 				{
-					Glauber.glauber(ising_Grid, iterations,temp,bi,bw);
+					for (int i=0;i<n;i++)
+						for(int j =0;j<n;j++)
+						{
+							//ising_Grid[i][j] = rand.nextInt(2);
+							ising_Grid[i][j] = -1;
+							//if(ising_Grid[i][j]==0)
+							//{
+								//ising_Grid[i][j] -= 1;
+							//I THINK THERE IS A BETTER WAY TO DO THIS BUT THIS WILL DO FOR NOW
+							
+							//}
+						}
+							
+					Glauber.glauber(ising_Grid, iterations,temp,bi,bw,graphic);
 					System.out.println(temp);
 				}
 			bw.close();
@@ -100,7 +115,7 @@ public class Ising
 			//Kawaski
 			// To set up the type of dyniamics the initalisation needs to be different instaed of just random we could choose 
 			//the inital conditions to be half spin up and half spin down 
-			Kawaski.kawaski(ising_Grid, iterations, temp, bi);
+			Kawaski.kawaski(ising_Grid, iterations, temp, bi,graphic);
 		}
 		}
 		catch(Exception e)

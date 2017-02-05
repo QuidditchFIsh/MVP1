@@ -59,36 +59,64 @@ public class Functions
 		double sum=0;
 		//double sum1=0;
 		for(int i=0;i<ising[0].length;i++)
+		{
 			for(int j =0;j<ising[0].length;j++)
 			{
 				sum+= energy(ising,i,j);
 				//sum1 += energyHalf(ising,i,j);
 			}
+		}
+		//divide by two to compensate for double counting
 		return sum/2 ;
 		
 	}
+	public static double totalEnergySqd(int[][] ising)
+	{
+		//Quick method to calculate the total energy there is a better way where yopu loop over only the up and left cells (CHEKCK THIS)!!!!!
+		double sum=0;
+		//double sum1=0;
+		for(int i=0;i<ising[0].length;i++)
+		{
+			for(int j =0;j<ising[0].length;j++)
+			{
+				sum+= Math.pow(energy(ising,i,j),2);
+				//sum1 += energyHalf(ising,i,j);
+			}
+		}
+		return sum/2 ;
+		
+	}
+	
 
 	public static double normalisedTotalMagnetisation(int[][] ising)
 	{
-		int sum=0;
-		for(int i=0;i<ising[0].length;i++)
-			for(int j =0;j<ising[0].length;j++)
-				sum=+ising[i][j];
-		return sum;
+		double sum=0;
+		int n = ising[0].length;
+		for(int i=0;i<n;i++)
+		{
+			for(int j =0;j<n;j++)
+			{
+				sum+=ising[i][j];
+			}
+		}
+		return sum/(n*n);
 		///(Math.pow((ising[0].length),2))
 	}
 	public static double normalisedTotalMagSquared(int[][] ising)
 	{
 		double sum =0;
-		for(int i=0;i<ising[0].length;i++)
-			for(int j =0;j<ising[0].length;j++)
+		int n = ising[0].length;
+		for(int i=0;i<n;i++)
+		{
+			for(int j =0;j<n;j++)
 			{
 				sum+=(Math.pow(ising[i][j],2));
 				
 			}
-			
+		}
 		
-		return sum;
+		
+		return sum/(n*n);
 		///(Math.pow((ising[0].length),2))
 		
 	}

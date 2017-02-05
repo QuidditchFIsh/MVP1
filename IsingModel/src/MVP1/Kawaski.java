@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Kawaski extends Functions
 {
-	public static void kawaski(int[][] ising,int iterations,double temp,BufferedImage bi) throws InterruptedException
+	public static void kawaski(int[][] ising,int iterations,double temp,BufferedImage bi,boolean graphic) throws InterruptedException
 	{
 		int n = ising[0].length;
 		Random rand = new Random();
@@ -61,7 +61,8 @@ public class Kawaski extends Functions
 				}
 				if (i % 1000 ==0) 
 				{ 
-					graphics.update(ising, bi);
+					if(graphic)
+						graphics.update(ising, bi);
 					//TimeUnit.SECONDS.sleep(1);
 				}		
 			}
