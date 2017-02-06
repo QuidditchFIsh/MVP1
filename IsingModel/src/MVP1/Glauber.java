@@ -18,6 +18,10 @@ public class Glauber extends Functions
 		double avgEnergy=0;
 		double avgenergySqd =0;
 		int counter=0;
+		double suseptability=0;
+		double heatCapcity =0;
+		double[] magnetisation = new double[(int) ((iterations*0.9)/10)] ;
+		double[] energy = new double[(int) ((iterations*0.9)/10)] ;
 		//find a better way to to this other than passing the bufferedIMage around and around
 		//create and initalise the buffered image
 
@@ -48,15 +52,17 @@ public class Glauber extends Functions
 			//Now the metropolis algorithm has been completed we need to update the image 
 
 			//&& iterations > iterations*0.8
-			if (i % 100 ==0 && iterations > iterations*0.8) 
+			if (i % 100 ==0 && iterations > iterations*0.9) 
 			{ 
+				magnetisation[counter] = normalisedTotalMagnetisation(ising);
+				energy[counter] = totalEnergy(ising);
 				counter++;
 				if(graphic)
 					graphics.update(ising, bi);
 				avgMag += normalisedTotalMagnetisation(ising);
 				avgMagSqd += normalisedTotalMagSquared(ising);
-				avgEnergy += totalEnergy(ising)/(n*n);
-				avgenergySqd += totalEnergySqd(ising)/(n*n);
+				avgEnergy += totalEnergy(ising);
+				
 				
 			
 			
@@ -77,12 +83,14 @@ public class Glauber extends Functions
 			}
 			
 		}
+		avgMag /= ((iterations*0.9)/100);
+		avgEnergy/=((iterations*0.9)/100);
+		//suseptability = (1/(temp*n*n)) * (avgMagSqd - (avgMag*avgMag));
+		suseptability = standardDeviation(magnetisation,(iterations*0.9)/100);
+		heatCapcity = standardDeviation(energy,(iterations*0.9)/100);
 		
-		double sweeps = iterations* 0.8/100;
-		double heatCapacity = (1/(temp*temp)) * ((avgenergySqd/sweeps) - Math.pow(avgEnergy/sweeps, 2));
-		double suseptability = ((avgMagSqd/(counter))-Math.pow((avgMag/counter), 2))*(1/temp);
-		bw.write(String.valueOf( suseptability + " " + Math.abs(avgMag)/sweeps + " " + (avgEnergy)/sweeps + " "+ heatCapacity +" "+ String.valueOf(temp)));
+		bw.write(String.valueOf( suseptability  + " "+avgMag +" "+ heatCapcity  + " "+avgEnergy +" "+ String.valueOf(temp)));
 		bw.newLine();
-	}
+	} 
 }
 

@@ -23,7 +23,7 @@ public class Ising
  * dynamics: 1=Kawasaki Dynamics 0: Galuber dynamics
  * temp is the temperature of the system in kelvin
  */
-		int iterations =10000000;
+		int iterations =1000000;
 		int n = 50;
 		int dynamics =0;
 		int [][] ising_Grid = new int[n][n];
@@ -90,13 +90,13 @@ public class Ising
 			//To calcuate the magnetisation loop over the program many times and record the magnetisation
 			//at a certain temp
 			//for(int k = 0; k < 4 ; k++)
-				for(temp = 1.5; temp < 3.5 ; temp = temp + 0.1)
+				for(temp = 1.5; temp < 3.5 ; temp = temp + 0.01)
 				{
 					for (int i=0;i<n;i++)
 						for(int j =0;j<n;j++)
 						{
 							//ising_Grid[i][j] = rand.nextInt(2);
-							ising_Grid[i][j] = -1;
+							ising_Grid[i][j] = 1;
 							//if(ising_Grid[i][j]==0)
 							//{
 								//ising_Grid[i][j] -= 1;
