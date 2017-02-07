@@ -90,13 +90,13 @@ public class Ising
 			//To calcuate the magnetisation loop over the program many times and record the magnetisation
 			//at a certain temp
 			//for(int k = 0; k < 4 ; k++)
-				for(temp = 1.5; temp < 3.5 ; temp = temp + 0.01)
+				for(temp = 1.5; temp < 3 ; temp = temp + 0.02)
 				{
 					for (int i=0;i<n;i++)
 						for(int j =0;j<n;j++)
 						{
 							//ising_Grid[i][j] = rand.nextInt(2);
-							ising_Grid[i][j] = 1;
+							ising_Grid[i][j] = -1;
 							//if(ising_Grid[i][j]==0)
 							//{
 								//ising_Grid[i][j] -= 1;

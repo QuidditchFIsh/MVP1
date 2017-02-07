@@ -20,6 +20,8 @@ public class Glauber extends Functions
 		int counter=0;
 		double suseptability=0;
 		double heatCapcity =0;
+		double heatCapcity1 =0;
+		double suseptability1 =0;
 		double[] magnetisation = new double[(int) ((iterations*0.9)/10)] ;
 		double[] energy = new double[(int) ((iterations*0.9)/10)] ;
 		//find a better way to to this other than passing the bufferedIMage around and around
@@ -41,7 +43,7 @@ public class Glauber extends Functions
 
 			//now the energy of the system after the flip is calculated
 			energyAfter = energy(ising,randi,randj);
-			energyDiff = energyBefore - energyAfter;
+			energyDiff = -energyBefore + energyAfter;
 
 			if(acceptOrReject(energyDiff,temp) == false)
 			{
@@ -52,16 +54,18 @@ public class Glauber extends Functions
 			//Now the metropolis algorithm has been completed we need to update the image 
 
 			//&& iterations > iterations*0.8
-			if (i % 100 ==0 && iterations > iterations*0.9) 
+			if (i % 100 ==0 && iterations > iterations*0.95) 
 			{ 
 				magnetisation[counter] = normalisedTotalMagnetisation(ising);
-				energy[counter] = totalEnergy(ising);
+				energy[counter] = totalEnergy(ising)/(n*n);
 				counter++;
 				if(graphic)
 					graphics.update(ising, bi);
 				avgMag += normalisedTotalMagnetisation(ising);
 				avgMagSqd += normalisedTotalMagSquared(ising);
-				avgEnergy += totalEnergy(ising);
+				avgEnergy += totalEnergy(ising)/(n*n);
+				avgenergySqd += (totalEnergy(ising))/(n*n);
+				
 				
 				
 			
@@ -76,20 +80,24 @@ public class Glauber extends Functions
 				}
 				System.out.println();
 			}
-			System.out.println(normalisedTotalMagSquared(ising) + " " + normalisedTotalMagnetisation(ising));
-			
+			System.out.println(normalisedTotalMagnetisation(ising));
+			 
 			TimeUnit.SECONDS.sleep(1);
 			*/
 			}
 			
 		}
-		avgMag /= ((iterations*0.9)/100);
-		avgEnergy/=((iterations*0.9)/100);
-		//suseptability = (1/(temp*n*n)) * (avgMagSqd - (avgMag*avgMag));
-		suseptability = standardDeviation(magnetisation,(iterations*0.9)/100);
-		heatCapcity = standardDeviation(energy,(iterations*0.9)/100);
+		//avgMag /= ((iterations*0.9)/100);
+		//avgEnergy/=((iterations*0.9)/100);
+		suseptability = standardDeviation(magnetisation,(iterations*0.95)/100);
+		suseptability = standardDeviation(magnetisation,counter);
+		heatCapcity = standardDeviation(energy,(iterations*0.95)/100);
+		heatCapcity = standardDeviation(energy,counter);
+		heatCapcity1 = standardDeviation(energy);
+		suseptability1 = standardDeviation(magnetisation);
 		
-		bw.write(String.valueOf( suseptability  + " "+avgMag +" "+ heatCapcity  + " "+avgEnergy +" "+ String.valueOf(temp)));
+		
+		bw.write(String.valueOf( suseptability/(temp*n*n)+ " " + suseptability1/(temp*n*n) + " "+avgMag +" "+ heatCapcity/(n*n*temp*temp)  + " "+avgEnergy +" "+heatCapcity1+ " " +  String.valueOf(temp)));
 		bw.newLine();
 	} 
 }

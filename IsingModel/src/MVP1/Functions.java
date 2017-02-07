@@ -14,17 +14,17 @@ public class Functions
 		sum = ising[Math.floorMod(i+1, n)][j] + ising[Math.floorMod(i-1, n)][j] + ising[i][Math.floorMod(j-1, n)] + ising[i][Math.floorMod(j+1, n)];
 		sum *= ising[i][j];
 
-		return sum;
+		return -1*sum;
 	}
 	public static double energyHalf(int[][] ising ,int i,int j)
 	{
 		int n = ising[0].length;
 		double sum =0;
 		//This method will only sum over the up and left modules to get the total energy divided by 2.
-		sum = ising[Math.floorMod(i+1, n)][j] + ising[Math.floorMod(i-1, n)][j];
+		sum = ising[Math.floorMod(i+1, n)][j] + ising[i][Math.floorMod(j+1, n)];
 		sum *= ising[i][j];
 
-		return sum;
+		return -1*sum;
 		
 	}
 	public static boolean acceptOrReject(double energyDiff,double temp)
@@ -64,7 +64,7 @@ public class Functions
 			for(int j =0;j<ising[0].length;j++)
 			{
 				sum+= energy(ising,i,j);
-				//sum1 += energyHalf(ising,i,j);
+				//sum += energyHalf(ising,i,j);
 			}
 		}
 		//divide by two to compensate for double counting
@@ -84,7 +84,7 @@ public class Functions
 				//sum1 += energyHalf(ising,i,j);
 			}
 		}
-		return sum/2 ;
+		return sum ;
 		
 	}
 	
@@ -134,13 +134,34 @@ public class Functions
 			mag1 += mag[i];
 			magSqd+= mag[i] * mag[i];
 		}
-		
-		mag1 /= sweeps;
+		//mag1 *=mag1;
 		magSqd /= sweeps;
+		mag1 /= sweeps;
+		//System.out.println(sweeps + " " + mag.length);
+		return (magSqd - (mag1*mag1));
 		
-		return mag1-magSqd;
 		
+	}
+	public static double standardDeviation(double [] sample)
+	{
+		double sum=0;
+		double mean = mean(sample);
+		for(int i=0;i<sample.length;i++)
+		{
+			sum +=Math.pow(( sample[i] - mean),2);
+		}
 		
+		return (sum/(sample.length-1));
+	}
+	public static double mean(double[] sample)
+	{
+		double sum =0;
+		
+		for(int i=0;i<sample.length;i++)
+		{
+			sum += sample[i];
+		}
+		return sum/sample.length;
 	}
 
 
