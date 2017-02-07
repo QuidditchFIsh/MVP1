@@ -25,7 +25,7 @@ public class Functions
 		sum *= ising[i][j];
 
 		return -1*sum;
-		
+
 	}
 	public static boolean acceptOrReject(double energyDiff,double temp)
 	//This method will accept or reject the change based on certain conditions
@@ -69,7 +69,7 @@ public class Functions
 		}
 		//divide by two to compensate for double counting
 		return sum/2 ;
-		
+
 	}
 	public static double totalEnergySqd(int[][] ising)
 	{
@@ -85,9 +85,9 @@ public class Functions
 			}
 		}
 		return sum ;
-		
+
 	}
-	
+
 
 	public static double normalisedTotalMagnetisation(int[][] ising) throws InterruptedException
 	{
@@ -115,20 +115,20 @@ public class Functions
 			{
 				sum += ising[i][j] * ising[i][j];
 				//sum +=normalisedTotalMagnetisation(ising) * normalisedTotalMagnetisation(ising);
-				
+
 			}
 		}
-		
+
 		//System.out.println(sum+"-");
 		//TimeUnit.SECONDS.sleep(1);
 		return sum/(n*n);
 		///(Math.pow((ising[0].length),2))
-		
+
 	}
 	public static double standardDeviation(double[] mag,double sweeps)
 	{
 		double mag1 =0,magSqd =0;
-		
+
 		for(int i=0;i<mag.length;i++)
 		{
 			mag1 += mag[i];
@@ -139,30 +139,32 @@ public class Functions
 		mag1 /= sweeps;
 		//System.out.println(sweeps + " " + mag.length);
 		return (magSqd - (mag1*mag1));
-		
-		
+
+
 	}
-	public static double standardDeviation(double [] sample)
+	public static double bootStrap(double[] sample)
 	{
-		double sum=0;
-		double mean = mean(sample);
-		for(int i=0;i<sample.length;i++)
+		//Hoepfully this is the correct bootstrap algorithm 
+		//Will go through it when i get home!!!!
+		Random rand = new Random();
+		int m =  (int) Math.floor(0.8 * sample.length);
+		double[] bootSample = new double[m];
+		double[] sampleVar = new double[m];
+		//not sure if k here is meant to me less than m or not?????
+		for(int j=0;j<m;j++)
 		{
-			sum +=Math.pow(( sample[i] - mean),2);
+			for(int i=0;i<sample.length;i++)
+			{
+				bootSample[i]= sample[rand.nextInt(m)];
+			}
+			sampleVar[j] = standardDeviation(bootSample,bootSample.length);
 		}
-		
-		return (sum/(sample.length-1));
+		return Math.sqrt(standardDeviation(sampleVar,sampleVar.length));
+
+
+
 	}
-	public static double mean(double[] sample)
-	{
-		double sum =0;
-		
-		for(int i=0;i<sample.length;i++)
-		{
-			sum += sample[i];
-		}
-		return sum/sample.length;
-	}
+
 
 
 }
