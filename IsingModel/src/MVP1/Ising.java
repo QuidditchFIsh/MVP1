@@ -90,7 +90,7 @@ public class Ising
 			//To calcuate the magnetisation loop over the program many times and record the magnetisation
 			//at a certain temp
 			//for(int k = 0; k < 4 ; k++)
-				for(temp = 1.5; temp < 3 ; temp = temp + 0.02)
+				for(temp = 1.5; temp < 3 ; temp = temp + 0.02 )
 				{
 					for (int i=0;i<n;i++)
 						for(int j =0;j<n;j++)
