@@ -26,13 +26,13 @@ public class graphics
 			}
 	}
 	
-	public static BufferedImage initaslise(int [][] ising,BufferedImage bi)
+	public static BufferedImage initaslise(int [][] ising,final BufferedImage bi)
 	{
 		int n = ising[0].length;
 		m=n;
 		//final BufferedImage bi = new BufferedImage(n, n, BufferedImage.TYPE_INT_RGB);
 		final Object lock = new Object();
-		final Frame f = new Frame();
+		final JFrame f = new JFrame();
 		f.setIgnoreRepaint(true);
 		f.setVisible(true);
 		f.setSize(n, n + f.getInsets().top);

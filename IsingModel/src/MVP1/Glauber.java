@@ -6,24 +6,20 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 public class Glauber extends Functions 
 {
-	public static void glauber(int [][] ising,int iterations,double temp,BufferedImage bi,BufferedWriter bw,boolean graphic) throws IOException, InterruptedException
+	public static double[] glauber(int [][] ising,int iterations,double temp,BufferedImage bi,boolean graphic) throws IOException
 	{
 		int n = ising[0].length;
 		Random rand = new Random();
 		double energyBefore=0;
 		double energyAfter=0;
-		double energyDiff = 0;
 		double avgMag=0;
-		double avgMagSqd=0;
 		double avgEnergy=0;
-		double avgenergySqd =0;
 		int counter=0;
 		double suseptability=0;
 		double heatCapcity =0;
-		double heatCapcity1 =0;
-		double suseptability1 =0;
 		double[] magnetisation = new double[(int) ((iterations*0.9)/10)] ;
 		double[] energy = new double[(int) ((iterations*0.9)/10)] ;
+		double[] results = new double[9];
 		//find a better way to to this other than passing the bufferedIMage around and around
 		//create and initalise the buffered image
 
@@ -43,9 +39,8 @@ public class Glauber extends Functions
 
 			//now the energy of the system after the flip is calculated
 			energyAfter = energy(ising,randi,randj);
-			energyDiff = -energyBefore + energyAfter;
 
-			if(acceptOrReject(energyDiff,temp) == false)
+			if(acceptOrReject(-energyBefore + energyAfter,temp) == false)
 			{
 
 				ising[randi][randj] *= -1;
@@ -62,28 +57,10 @@ public class Glauber extends Functions
 				if(graphic)
 					graphics.update(ising, bi);
 				avgMag += normalisedTotalMagnetisation(ising);
-				avgMagSqd += normalisedTotalMagSquared(ising);
 				avgEnergy += totalEnergy(ising)/(n*n);
-				avgenergySqd += (totalEnergy(ising))/(n*n);
-				
 				
 				
 			
-			
-			//testing
-			/*
-			for (int a=0;a<n;a++)
-			{
-				for(int b =0;b<n;b++)
-				{
-					System.out.print(ising[a][b] + " ");
-				}
-				System.out.println();
-			}
-			System.out.println(normalisedTotalMagnetisation(ising));
-			 
-			TimeUnit.SECONDS.sleep(1);
-			*/
 			}
 			
 		}
@@ -93,12 +70,17 @@ public class Glauber extends Functions
 		suseptability = standardDeviation(magnetisation,counter);
 		heatCapcity = standardDeviation(energy,(iterations*0.95)/100);
 		heatCapcity = standardDeviation(energy,counter);
-		heatCapcity1 = standardDeviation(energy);
-		suseptability1 = standardDeviation(magnetisation);
 		
+		results[0]=temp;
+		results[1]=avgMag;
+		results[2]=avgEnergy;
+		results[3]=suseptability/(temp*n*n);
+		results[4]=heatCapcity/(n*n*temp*temp);
 		
-		bw.write(String.valueOf( suseptability/(temp*n*n)+ " " + suseptability1/(temp*n*n) + " "+avgMag +" "+ heatCapcity/(n*n*temp*temp)  + " "+avgEnergy +" "+heatCapcity1+ " " +  String.valueOf(temp)));
-		bw.newLine();
+		return results;
+		
+		//bw.write(String.valueOf( suseptability/(temp*n*n)+  " "+avgMag +" "+ heatCapcity/(n*n*temp*temp)  + " "+avgEnergy + " " +  String.valueOf(temp)));
+		//bw.newLine();
 	} 
 }
 

@@ -1,7 +1,7 @@
 package MVP1;
+import java.io.BufferedWriter;
 import java.lang.Math;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class Functions 
 {
@@ -89,7 +89,7 @@ public class Functions
 	}
 
 
-	public static double normalisedTotalMagnetisation(int[][] ising) throws InterruptedException
+	public static double normalisedTotalMagnetisation(int[][] ising)  
 	{
 		double sum=0;
 		int n = ising[0].length;
@@ -100,12 +100,9 @@ public class Functions
 				sum+=ising[i][j];
 			}
 		}
-		//System.out.println(Math.abs(sum));
-		//TimeUnit.SECONDS.sleep(1);
 		return Math.abs(sum)/(n*n);
-		///(Math.pow((ising[0].length),2))
 	}
-	public static double normalisedTotalMagSquared(int[][] ising) throws InterruptedException
+	public static double normalisedTotalMagSquared(int[][] ising)  
 	{
 		double sum =0;
 		int n = ising[0].length;
@@ -114,15 +111,11 @@ public class Functions
 			for(int j =0;j<n;j++)
 			{
 				sum += ising[i][j] * ising[i][j];
-				//sum +=normalisedTotalMagnetisation(ising) * normalisedTotalMagnetisation(ising);
 
 			}
 		}
 
-		//System.out.println(sum+"-");
-		//TimeUnit.SECONDS.sleep(1);
 		return sum/(n*n);
-		///(Math.pow((ising[0].length),2))
 
 	}
 	public static double standardDeviation(double[] mag,double sweeps)
@@ -163,6 +156,20 @@ public class Functions
 
 
 
+	}
+	
+	public static void dataProcessing(BufferedWriter bw,double[][][] results)
+	{
+		//This method will calcuate the error in each of the measurements and print it to a file.
+		
+		double[] sample = new double[results.length];
+		//error on avgMag
+		for(int i =0;i<results[0].length;i++)
+		{
+			for(int j=0;j<results.length;j++)
+				sample[i] = results[j][i][1];
+			
+		}
 	}
 
 
