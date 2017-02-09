@@ -1,5 +1,6 @@
 package MVP1;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.lang.Math;
 import java.util.Random;
 
@@ -135,12 +136,21 @@ public class Functions
 
 
 	}
+	public static double average(double[] sample)
+	{
+		double sum =0;
+		for(double i:sample)
+		{
+			sum+=i;
+		}
+		return sum/sample.length;
+	}
 	public static double bootStrap(double[] sample)
 	{
 		//Hoepfully this is the correct bootstrap algorithm 
 		//Will go through it when i get home!!!!
 		Random rand = new Random();
-		int m =  (int) Math.floor(0.8 * sample.length);
+		int m =   sample.length;
 		double[] bootSample = new double[m];
 		double[] sampleVar = new double[m];
 		//not sure if k here is meant to me less than m or not?????
@@ -151,25 +161,42 @@ public class Functions
 				bootSample[i]= sample[rand.nextInt(m)];
 			}
 			sampleVar[j] = standardDeviation(bootSample,bootSample.length);
+			//need to add in the temp and other terms to this calculation!!!!!
 		}
 		return Math.sqrt(standardDeviation(sampleVar,sampleVar.length));
 
 
 
 	}
-	
-	public static void dataProcessing(BufferedWriter bw,double[][][] results)
+
+	public static void dataProcessing(BufferedWriter bw,double[][][] results) throws IOException
 	{
 		//This method will calcuate the error in each of the measurements and print it to a file.
-		
-		double[] sample = new double[results.length];
-		//error on avgMag
+
+		double[] errorSample = new double[results.length];
+
 		for(int i =0;i<results[0].length;i++)
 		{
-			for(int j=0;j<results.length;j++)
-				sample[i] = results[j][i][1];
-			
+			for(int k=1;k<9;k+=2)
+			{
+				for(int j=0;j<results.length;j++)
+				{
+					errorSample[j] = results[j][i][k];
+				}
+				results[0][i][k+1] = bootStrap(errorSample);
+				results[0][i][k]=average(errorSample);
+			}
+
 		}
+		for(int i=0;i<results[0].length;i++)
+		{
+			for(int j=0;j<results[0][0].length;j++)
+			{
+				bw.write(String.valueOf(results[0][i][j] + " "));
+			}
+			bw.newLine();
+		}
+		//Print out everything to the file using buffered writer!
 	}
 
 

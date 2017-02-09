@@ -28,20 +28,20 @@ public class Ising
 		System.out.println("Enter 1 to show Graphics and 0 for data Run");
 		if(input.nextInt() == 1){graphic = true;}
 
-		System.out.println("Enter the number of iterations:");
-		int iterations =input.nextInt();
+		System.out.println("Enter the number of sweeps:");
+		int iterations =input.nextInt()*1000;
 
 		System.out.println("Enter the size of the system (nxn):");
 		int n = input.nextInt();
 
-		System.out.println("Enter the temperature of the system");
+		System.out.println("Enter the inital temperature of the system");
 		double temp = input.nextDouble();
+		double initalTemp = temp;
 
 		double increments = 0.1;
 		int tempNum = 2;
 		int runs = 0;
 		double tempMax =0;
-		int counter=0;
 		if(!graphic)
 		{
 			System.out.println("Enter the increments the system should run in:");
@@ -72,7 +72,8 @@ public class Ising
 			for(double[][] row:result)
 				for(double[] coloum :row)
 					Arrays.fill(coloum, 0);
-				
+		
+		System.out.println(tempNum);
 		//0 temp , 1 avg mag,2 avg mag error, 3 avg energy, 4 avg energy error,5 suseptability, 6 sus error, 7 heat capacity, 8 Cv error
 
 		try
@@ -91,15 +92,17 @@ public class Ising
 				if(!graphic)
 					for(int k = 0; k < runs ; k++)
 					{
-						for(; temp < tempMax ; temp += increments )
+						//for(; temp < tempMax ; temp += increments )
+						for(int i=0;i<tempNum ;i++)
 						{
 							
 							for(int[] row : ising_Grid)
 								Arrays.fill(row, -1);
-							result[k][counter]=Glauber.glauber(ising_Grid, iterations,temp,bi,graphic);
-							counter++;
+							result[k][i]=Glauber.glauber(ising_Grid, iterations,temp,bi,graphic);
+							temp += increments;
 							System.out.println("The temperature of the System is: " + temp);
 						}
+						temp = initalTemp;
 					}
 				else
 				{
@@ -109,7 +112,6 @@ public class Ising
 					Glauber.glauber(ising_Grid, iterations,temp,bi,graphic);
 					System.out.println("The temperature of the System is: " + temp);
 				}
-				bw.close();
 			}
 			else
 			{
@@ -118,6 +120,12 @@ public class Ising
 				//the inital conditions to be half spin up and half spin down 
 				Kawaski.kawaski(ising_Grid, iterations, temp, bi,graphic);
 			}
+			if(!graphic)
+			{
+			System.out.println(result.length + " " + result[0].length + " " + result[0][0].length);
+			Functions.dataProcessing(bw,result);
+			}
+			bw.close();
 		}
 		catch(Exception e)
 		{

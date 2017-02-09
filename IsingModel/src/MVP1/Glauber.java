@@ -48,7 +48,6 @@ public class Glauber extends Functions
 			}
 			//Now the metropolis algorithm has been completed we need to update the image 
 
-			//&& iterations > iterations*0.8
 			if (i % 100 ==0 && iterations > iterations*0.95) 
 			{ 
 				magnetisation[counter] = normalisedTotalMagnetisation(ising);
@@ -64,23 +63,19 @@ public class Glauber extends Functions
 			}
 			
 		}
-		//avgMag /= ((iterations*0.9)/100);
-		//avgEnergy/=((iterations*0.9)/100);
-		suseptability = standardDeviation(magnetisation,(iterations*0.95)/100);
+		avgMag /= counter;
+		avgEnergy/=counter;
 		suseptability = standardDeviation(magnetisation,counter);
-		heatCapcity = standardDeviation(energy,(iterations*0.95)/100);
 		heatCapcity = standardDeviation(energy,counter);
 		
 		results[0]=temp;
 		results[1]=avgMag;
-		results[2]=avgEnergy;
-		results[3]=suseptability/(temp*n*n);
-		results[4]=heatCapcity/(n*n*temp*temp);
+		results[3]=avgEnergy;
+		results[5]=suseptability/(temp*n*n);
+		results[7]=heatCapcity/(n*n*temp*temp);
 		
 		return results;
 		
-		//bw.write(String.valueOf( suseptability/(temp*n*n)+  " "+avgMag +" "+ heatCapcity/(n*n*temp*temp)  + " "+avgEnergy + " " +  String.valueOf(temp)));
-		//bw.newLine();
 	} 
 }
 
