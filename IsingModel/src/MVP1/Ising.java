@@ -118,7 +118,42 @@ public class Ising
 				//Kawaski
 				// To set up the type of dyniamics the initalisation needs to be different instaed of just random we could choose 
 				//the inital conditions to be half spin up and half spin down 
-				Kawaski.kawaski(ising_Grid, iterations, temp, bi,graphic);
+				if(!graphic)
+					for(int k = 0; k < runs ; k++)
+					{
+						for(int i=0;i<tempNum ;i++)
+						{
+							
+							for(int j=0;j<ising_Grid.length;j++)
+								for(int l=0;l<ising_Grid.length ;l++)
+								{
+									if(l<ising_Grid.length/2)
+										ising_Grid[j][l] =1;
+									else
+										ising_Grid[j][l]=-1;
+								}
+									
+							result[k][i]=Kawaski.kawaski(ising_Grid, iterations, temp, bi,graphic);
+							temp += increments;
+							System.out.println("The temperature of the System is: " + temp);
+						}
+						temp = initalTemp;
+					}
+				else
+				{
+					for(int j=0;j<ising_Grid.length;j++)
+						for(int l=0;l<ising_Grid.length ;l++)
+						{
+							if(l<ising_Grid.length/2)
+								ising_Grid[j][l] =1;
+							else
+								ising_Grid[j][l]=-1;
+						}
+
+					Kawaski.kawaski(ising_Grid, iterations, temp, bi,graphic);
+					System.out.println("The temperature of the System is: " + temp);
+				}
+
 			}
 			if(!graphic)
 			{

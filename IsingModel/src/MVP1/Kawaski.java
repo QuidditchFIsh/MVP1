@@ -6,11 +6,19 @@ import java.util.concurrent.TimeUnit;
 
 public class Kawaski extends Functions
 {
-	public static void kawaski(int[][] ising,int iterations,double temp,BufferedImage bi,boolean graphic) throws InterruptedException
+	public static double[] kawaski(int[][] ising,int iterations,double temp,BufferedImage bi,boolean graphic) throws InterruptedException
 	{
 		int n = ising[0].length;
 		Random rand = new Random();
 		double energyBefore =0,energyAfter =0,energyDiff=0;
+		double avgMag=0;
+		double avgEnergy=0;
+		int counter=0;
+		double suseptability=0;
+		double heatCapcity =0;
+		double[] magnetisation = new double[(int) ((iterations*0.9)/10)] ;
+		double[] energy = new double[(int) ((iterations*0.9)/10)] ;
+		double[] results = new double[9];
 
 		int randi_1 = 0;
 		int randj_1 = 0;
@@ -53,23 +61,40 @@ public class Kawaski extends Functions
 					ising[randi_2][randj_2] *=-1;
 					energyAfter = energy(ising,randi_1,randj_1) + energy(ising,randi_2,randj_2);
 				}
-				energyDiff = energyBefore - energyAfter;
-				if(acceptOrReject(energyDiff,temp) == false)
+				if(acceptOrReject(-energyBefore + energyAfter,temp) == false)
 				{
 					ising[randi_1][randj_1] *=-1;
 					ising[randi_2][randj_2] *=-1;
 				}
-				if (i % 1000 ==0) 
+				
+				if (i % 100 ==0 && iterations > iterations*0.95) 
 				{ 
+					magnetisation[counter] = normalisedTotalMagnetisation(ising);
+					energy[counter] = totalEnergy(ising)/(n*n);
+					counter++;
 					if(graphic)
 						graphics.update(ising, bi);
-					//TimeUnit.SECONDS.sleep(1);
-				}		
+					avgMag += normalisedTotalMagnetisation(ising);
+					avgEnergy += totalEnergy(ising)/(n*n);
+					
+					
+				
+				}	
+				
+				avgMag /= counter;
+				avgEnergy/=counter;
+				suseptability = standardDeviation(magnetisation,counter);
+				heatCapcity = standardDeviation(energy,counter);
+				
+				results[0]=temp;
+				results[1]=avgMag;
+				results[3]=avgEnergy;
+				results[5]=suseptability/(temp*n*n);
+				results[7]=heatCapcity/(n*n*temp*temp);
+				
 			}
-
 		}
-
-
+		return results;
 	}
 	public static boolean nearestNeighbors(int[][] ising,int randi_1,int randi_2,int randj_1,int randj_2,int n)
 	/*
