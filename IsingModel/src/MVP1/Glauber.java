@@ -53,29 +53,39 @@ public class Glauber extends Functions
 				magnetisation[counter] = normalisedTotalMagnetisation(ising);
 				energy[counter] = totalEnergy(ising)/(n*n);
 				counter++;
-				if(graphic)
-					graphics.update(ising, bi);
+				//if(graphic)
+				//graphics.update(ising, bi);
 				avgMag += normalisedTotalMagnetisation(ising);
 				avgEnergy += totalEnergy(ising)/(n*n);
-				
-				
-			
+
+
+
 			}
-			
+			if(iterations % 100 ==0)
+				if(graphic)
+					graphics.update(ising, bi);
+
+			//			if(graphic)
+			//				if(i>iterations*0.5)
+			//					temp = 1;
+
 		}
+
 		avgMag /= counter;
 		avgEnergy/=counter;
 		suseptability = standardDeviation(magnetisation,counter);
 		heatCapcity = standardDeviation(energy,counter);
-		
+
 		results[0]=temp;
 		results[1]=avgMag;
 		results[3]=avgEnergy;
 		results[5]=suseptability/(temp*n*n);
 		results[7]=heatCapcity/(n*n*temp*temp);
-		
+
+
+
 		return results;
-		
+
 	} 
 }
 

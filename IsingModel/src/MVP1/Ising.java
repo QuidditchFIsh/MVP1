@@ -29,7 +29,7 @@ public class Ising
 		if(input.nextInt() == 1){graphic = true;}
 
 		System.out.println("Enter the number of sweeps:");
-		int iterations =input.nextInt()*1000;
+		int iterations =input.nextInt()*2500;
 
 		System.out.println("Enter the size of the system (nxn):");
 		int n = input.nextInt();
@@ -111,6 +111,7 @@ public class Ising
 
 					Glauber.glauber(ising_Grid, iterations,temp,bi,graphic);
 					System.out.println("The temperature of the System is: " + temp);
+					
 				}
 			}
 			else

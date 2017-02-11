@@ -66,8 +66,8 @@ public class Kawaski extends Functions
 					ising[randi_1][randj_1] *=-1;
 					ising[randi_2][randj_2] *=-1;
 				}
-				
-				if (i % 100 ==0 && iterations > iterations*0.95) 
+				//&& iterations > iterations*0.95
+				if (i % n*n ==0 ) 
 				{ 
 					magnetisation[counter] = normalisedTotalMagnetisation(ising);
 					energy[counter] = totalEnergy(ising)/(n*n);
@@ -76,24 +76,25 @@ public class Kawaski extends Functions
 						graphics.update(ising, bi);
 					avgMag += normalisedTotalMagnetisation(ising);
 					avgEnergy += totalEnergy(ising)/(n*n);
-					
-					
-				
 				}	
 				
-				avgMag /= counter;
-				avgEnergy/=counter;
-				suseptability = standardDeviation(magnetisation,counter);
-				heatCapcity = standardDeviation(energy,counter);
+			//	if(graphic)
+				//	graphics.update(ising, bi);
 				
-				results[0]=temp;
-				results[1]=avgMag;
-				results[3]=avgEnergy;
-				results[5]=suseptability/(temp*n*n);
-				results[7]=heatCapcity/(n*n*temp*temp);
+
 				
 			}
 		}
+		avgMag /= counter;
+		avgEnergy/= counter;
+		suseptability = standardDeviation(magnetisation,counter);
+		heatCapcity = standardDeviation(energy,counter);
+		
+		results[0]=temp;
+		results[1]=avgMag;
+		results[3]=avgEnergy;
+		results[5]=suseptability/(temp*n*n);
+		results[7]=heatCapcity/(n*n*temp*temp);
 		return results;
 	}
 	public static boolean nearestNeighbors(int[][] ising,int randi_1,int randi_2,int randj_1,int randj_2,int n)
